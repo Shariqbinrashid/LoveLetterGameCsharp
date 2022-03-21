@@ -1,0 +1,13 @@
+D:\work\yasir\loveletter\bin\Debug\netcoreapp3.1\loveletter.exe
+D:\work\yasir\loveletter\bin\Debug\netcoreapp3.1\loveletter.deps.json
+D:\work\yasir\loveletter\bin\Debug\netcoreapp3.1\loveletter.runtimeconfig.json
+D:\work\yasir\loveletter\bin\Debug\netcoreapp3.1\loveletter.runtimeconfig.dev.json
+D:\work\yasir\loveletter\bin\Debug\netcoreapp3.1\loveletter.dll
+D:\work\yasir\loveletter\bin\Debug\netcoreapp3.1\loveletter.pdb
+D:\work\yasir\loveletter\obj\Debug\netcoreapp3.1\loveletter.csprojAssemblyReference.cache
+D:\work\yasir\loveletter\obj\Debug\netcoreapp3.1\loveletter.AssemblyInfoInputs.cache
+D:\work\yasir\loveletter\obj\Debug\netcoreapp3.1\loveletter.AssemblyInfo.cs
+D:\work\yasir\loveletter\obj\Debug\netcoreapp3.1\loveletter.csproj.CoreCompileInputs.cache
+D:\work\yasir\loveletter\obj\Debug\netcoreapp3.1\loveletter.dll
+D:\work\yasir\loveletter\obj\Debug\netcoreapp3.1\loveletter.pdb
+D:\work\yasir\loveletter\obj\Debug\netcoreapp3.1\loveletter.genruntimeconfig.cache
