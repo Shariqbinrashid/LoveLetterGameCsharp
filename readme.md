@@ -22,3 +22,5 @@ Then on terminal run "dotnet run"
 <img src="img/2.PNG" width=100% height=50%>
 <img src="img/3.PNG" width=100% height=50%>
 
+## Extended functionality
+Now game store its state for user to resume game play

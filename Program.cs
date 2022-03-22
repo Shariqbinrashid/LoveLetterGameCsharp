@@ -1,29 +1,88 @@
 ﻿using System.Collections.Generic;
 using System;
-using System.Linq;
+using System.IO;
 
 namespace lovebird
 {
     class Program
     {
         static List<Player> players = new List<Player>();  //static global list for players,so its accessible for all the methods in the class
-        
+        static int round=0;  //int to store round count
         static void Main(string[] args)
         {   
+            //For ecc key hit check
+            ConsoleKeyInfo ch;
+ 
+            Console.WriteLine("Welcome to love letter Game\n");
 
-    
-            Console.WriteLine("Welcome to love letter Game");
-            Console.WriteLine("Enter number of Players");
-            int noOfPlayers=Convert.ToInt32(Console.ReadLine());
-            for(int i=0;i<noOfPlayers;i++){
-                Player plr=new Player();
-                players.Add(plr); //adding each player to players list
+            int noOfPlayers;
+            int sum=0;
+            //If user dont want to resume the game
+            if(!resumeGamePlay()){
+                Console.WriteLine("Enter number of Players");
+                noOfPlayers=Convert.ToInt32(Console.ReadLine());
+                for(int i=0;i<noOfPlayers;i++){
+                    Player plr=new Player();
+                    players.Add(plr); //adding each player to players list
+                }
+            }
+            //if user want to resume the game
+            else{
+                string fileName = @"record.txt";
+                
+                using (StreamReader streamReader = File.OpenText(fileName))
+                {
+                    string text = streamReader.ReadToEnd();
+                    string[] lines = text.Split(Environment.NewLine);
+                    noOfPlayers=Int32.Parse(lines[0]);
+                    for(int i=0;i<noOfPlayers;i++){
+                        Player plr=new Player();
+                        players.Add(plr); //adding each player to players list
+                    }
+                
+                    int j=1;
+                    for(int i=0;i<noOfPlayers;i++){
+                        players[i].Tokens=Int32.Parse(lines[j]);
+                        sum+=Int32.Parse(lines[j]);
+                        j++;
+                    }
+                }
+                sum+=1;
             }
 
-            int round=0; //int to store round count
+            //If User resume the game, round is equal to total number of affections + 1
+            round=sum;
 
+            
+            
             //Game Code
-            while(checkWinner()){
+            while(checkWinner() ){
+                Console.WriteLine("Press the Escape (Esc) key to quit and store game state and any other key to continue :");
+                ch = Console.ReadKey();
+                if (ch.Key == ConsoleKey.Escape)
+                {
+                    string path = @"record.txt";  
+                    if (!File.Exists(path)) { // Create a file to write to   
+                        using(StreamWriter sw = File.CreateText(path)) {  
+                            sw.WriteLine(noOfPlayers);
+                            foreach(Player l in players){
+                                sw.WriteLine(l.Tokens);
+                            }  
+                              
+                        }  
+                    }
+                    else{
+                        using (StreamWriter sw = new StreamWriter(path))  
+                        {  
+                            sw.WriteLine(noOfPlayers);
+                            foreach(Player l in players){
+                                sw.WriteLine(l.Tokens);
+                            }   
+                        } 
+                    }
+                    Environment.Exit(0);
+                }
+
                 //At each new round, players cards is removed, and active status is changed to true
                 ClearPlayers();
 
@@ -46,13 +105,14 @@ namespace lovebird
                 Console.WriteLine("Distributing Cards......");
 
                 //loop below is adding one random card to player cards
-                for(int i=0;i<noOfPlayers;i++){
+                for(int i=0;i<players.Count;i++){
                     card=deck.getRandomCard();
                     players[i].addCard(card,deck.getIndex(card)+1);
                 }
 
                 Console.WriteLine("************************");
-
+                Console.WriteLine("Press Enter to start round");
+                string _temp=Console.ReadLine();
                 //loop for round
                 while(checkRoundWinner){
                     
@@ -495,6 +555,54 @@ namespace lovebird
             }
             return true;
         }
+
+        //method for if file exist in the directory
+        public static bool checkForFile(){
+            string fileName = @"record.txt";
+            
+            if(File.Exists(fileName)){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+
+        //Method for resume gameplay logic
+        public static bool resumeGamePlay(){
+            string fileName = @"record.txt";
+            if(checkForFile()){
+                using (StreamReader streamReader = File.OpenText(fileName))
+                {
+                    string text = streamReader.ReadToEnd();
+                    streamReader.Close();
+                    if(String.Equals(text,"")){
+                        return false;
+                    }
+                    else{
+                        Console.WriteLine("You have previous game play!!");
+                        Console.WriteLine("Do you want to resume? Y/N");
+
+                        string input=Console.ReadLine().ToUpper();
+                        if(String.Equals(input,"Y")){
+                            return true;
+                        }
+                        else{
+                            using (StreamWriter sw = new StreamWriter(@"record.txt"))  
+                            {  
+                                sw.WriteLine("");
+                                 
+                            }
+                            return false;
+                        }
+                        
+                    }
+                    
+                }
+            }
+            return false;
+        }
+
 
     }
 }
